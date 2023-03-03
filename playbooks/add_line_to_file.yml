@@ -1,0 +1,20 @@
+- name: Add line to *prod.tfvars files
+  hosts: localhost
+  tasks:
+    - name: Define line to add
+      set_fact:
+        line_to_add: "my new line to add"
+
+    - name: Add line to files
+      find:
+        paths: "{{ playbook_dir }}"
+        patterns: "*prod.tfvars"
+        recurse: yes
+      register: files_to_modify
+
+    - name: Append line to files
+      lineinfile:
+        path: "{{ item.path }}"
+        line: "{{ line_to_add }}"
+        insertafter: EOF
+      with_items: "{{ files_to_modify.files }}"

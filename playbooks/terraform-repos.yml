@@ -1,0 +1,17 @@
+repo_list:
+  - name: terraform-admin
+    url: git@github.com:Zonos/terraform-admin.git
+  - name: terraform-globals
+    url: git@github.com:Zonos/terraform-globals.git
+  - name: terraform-infra
+    url: git@github.com:Zonos/terraform-infra.git
+  - name: terraform-services
+    url: git@github.com:Zonos/terraform-services.git
+  - name: terraform-privileged-access
+    url: git@github.com:Zonos/terraform-privileged-access.git
+  - name: terraform-iam-users
+    url: git@github.com:Zonos/terraform-iam-users.git
+
+dest_folder: /Users/matthew.tyler/Projects/Terraform
+
+branch: devops/ansible-branch-test
