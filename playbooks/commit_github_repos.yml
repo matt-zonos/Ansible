@@ -1,0 +1,30 @@
+# ansible-playbook commit_github_repos.yml -e @terraform-repos.yml
+- name: Commit GitHub repositories
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Add changes to local repository
+      ansible.builtin.shell: |
+        cd "{{ dest_folder }}/{{ item.name }}"
+        git add .
+      register: git_add_output
+      changed_when: true
+      loop: "{{ repo_list }}"
+      tags: Add
+
+    - name: Commit changes to local repository
+      ansible.builtin.shell: |
+        cd "{{ dest_folder }}/{{ item.name }}"
+        git commit -m "{{ commit_msg }}"
+      register: git_commit_output
+      loop: "{{ repo_list }}"
+      changed_when: git_commit_output.stdout != ""
+      tags: Commit
+#    - name: Push changes to GitHub repository
+#      ansible.builtin.shell: |
+#        cd "{{ dest_folder }}/{{ item.name }}"
+#        git push git@github.com:{{ github_user }}:{{ github_token }}@{{ github_repo_url }} "{{ branch_name }}"
+#      register: git_push_output
+#      changed_when: git_push_output.stdout != ""
+#      loop: "{{ repo_list }}"
+#      tags: Push

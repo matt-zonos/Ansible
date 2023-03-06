@@ -1,29 +1,44 @@
-#ansible-playbook clone_github_repos.yml -e @terraform-repos.yml
+# ansible-playbook clone_github_repos.yml -e @terraform-repos.yml
 - name: Clone GitHub repositories
   hosts: localhost
-  become: no
+  become: false
   tasks:
     - name: Create destination folder
-      file:
+      ansible.builtin.file:
         path: "{{ dest_folder }}"
         state: directory
+        mode: "0755"
 
     - name: Clone repositories
-      git:
+      ansible.builtin.git:
         repo: "{{ item.url }}"
         dest: "{{ dest_folder }}/{{ item.name }}"
+        version: "{{ latest }}"
       loop: "{{ repo_list }}"
+      tags: clone
 
-    - name: Create new branch
-      git:
-        repo: "{{ dest_folder }}/{{ item.name }}"
-        ref: "refs/heads/{{ branch }}"
-        state: present
-      loop: "{{ repo_list }}"
+    #    - name: Create new branch
+    #      ansible.builtin.git:
+    #        repo: "{{ dest_folder }}/{{ item.name }}"
+    #        version: "{{ branch }}"
+    #      loop: "{{ repo_list }}"
+    #
+    #    - name: Checkout new branch
+    #      ansible.builtin.git:
+    #        repo: "{{ item.url }}"
+    #        dest: "{{ dest_folder }}/{{ item.name }}"
+    #        version: "{{ branch }}"
+    #      loop: "{{ repo_list }}"
 
-    - name: Checkout new branch
-      git:
-        repo: "{{ item.url }}"
-        dest: "{{ dest_folder }}/{{ item.name }}"
-        version: "{{ branch }}"
+    - name: Create and checkout new branch
+      ansible.builtin.shell: |
+        cd "{{ dest_folder }}/{{ item.name }}"
+        if git show-ref --quiet refs/heads/"{{ branch }}"; then
+          echo 'Branch already exists'
+        else
+          git checkout -b "{{ branch }}"
+          echo 'Branch created or checked out'
+        fi
+      register: my_output
+      changed_when: "'Branch created or checked out' in my_output.stdout"
       loop: "{{ repo_list }}"

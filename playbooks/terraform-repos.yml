@@ -12,6 +12,10 @@ repo_list:
   - name: terraform-iam-users
     url: git@github.com:Zonos/terraform-iam-users.git
 
-dest_folder: /Users/matthew.tyler/Projects/Terraform
+dest_folder: /Users/matthew.tyler/Projects/Terraform-test
+
+latest: head
 
 branch: devops/ansible-branch-test
+
+commit_msg: Trying to break stuff
