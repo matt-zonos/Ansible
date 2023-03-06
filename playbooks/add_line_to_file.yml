@@ -2,18 +2,18 @@
   hosts: localhost
   tasks:
     - name: Define line to add
-      set_fact:
+      ansible.builtin.set_fact:
         line_to_add: "my new line to add"
 
     - name: Add line to files
-      find:
+      ansible.builtin.find:
         paths: "{{ playbook_dir }}"
         patterns: "*prod.tfvars"
-        recurse: yes
+        recurse: true
       register: files_to_modify
 
     - name: Append line to files
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: "{{ item.path }}"
         line: "{{ line_to_add }}"
         insertafter: EOF
