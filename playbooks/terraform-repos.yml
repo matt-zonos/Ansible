@@ -11,11 +11,13 @@ repo_list:
     url: git@github.com:Zonos/terraform-privileged-access.git
   - name: terraform-iam-users
     url: git@github.com:Zonos/terraform-iam-users.git
+  - name: terraform-vpc-peering
+    url: git@github.com:Zonos/terraform-vpc-peering.git
 
 dest_folder: /Users/matthew.tyler/Projects/Terraform-test
 
 latest: head
 
-branch: devops/ansible-branch-test
+branch: devops/checkout-automation
 
 commit_msg: Trying to break stuff

@@ -1,0 +1,9 @@
+# ansible-playbook clone_github_repos.yml -e @terraform-repos.yml
+- name: Clone GitHub repositories
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Delete destination folder
+      ansible.builtin.file:
+        path: "{{ dest_folder }}"
+        state: absent
