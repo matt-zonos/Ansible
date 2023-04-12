@@ -18,6 +18,6 @@ dest_folder: /Users/matthew.tyler/Projects/Terraform-test
 
 latest: head
 
-branch: devops/checkout-automation
+branch: devops/placeholder
 
 commit_msg: Trying to break stuff
